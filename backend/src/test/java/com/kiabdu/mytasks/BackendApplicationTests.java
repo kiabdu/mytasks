@@ -1,4 +1,4 @@
-package com.kiabdu.mytasks.backend;
+package com.kiabdu.mytasks;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

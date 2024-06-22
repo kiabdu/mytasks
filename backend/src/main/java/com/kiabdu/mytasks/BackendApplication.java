@@ -1,4 +1,4 @@
-package com.kiabdu.mytasks.backend;
+package com.kiabdu.mytasks;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
