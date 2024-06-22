@@ -13,10 +13,10 @@ MyTasks is a versatile and user-friendly todo application that allows users to m
 - **User Authentication**: Secure login functionality to protect your tasks.
 - **Cross-Device Sync**: Access your tasks from any android phone you log into.
 - **Task Management**:
-    - Create new tasks
-    - Edit existing tasks
-    - Delete tasks
-    - Mark tasks as complete
+    - create new tasks
+    - edit existing tasks
+    - delete tasks
+    - mark tasks as complete
 - **Persistent Storage**: Tasks are stored in an H2 SQL database for reliability.
 
 ## Tech Stack
@@ -36,7 +36,7 @@ I developed this project as a practical demonstration of my full-stack developme
 
 ## Contributing
 
-While this project is primarily a portfolio piece, contributions or suggestions for improvements are welcome. Please feel free to submit a Pull Request or open an Issue for discussion.
+While this project is primarily a portfolio piece,  contributions or suggestions for improvements are welcome. Please feel free to submit a Pull Request or open an Issue for discussion.
 
 ## Contact
 
