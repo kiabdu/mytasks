@@ -4,29 +4,11 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
-@Entity
+@Embeddable
 public class Task {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "task_id", nullable = false, unique = true)
-    private Long task_id;
-
-    @Column(name = "task_name", nullable = false, length = 100)
     private String task_name;
-
-    @Column(name = "task_description", length = 500)
     private String task_description;
-
-    @Column(name = "task_dueDate")
     private LocalDate task_dueDate;
-
-    public void setTask_id(Long taskId) {
-        this.task_id = taskId;
-    }
-
-    public Long getTask_id() {
-        return task_id;
-    }
 
     public String getTask_name() {
         return task_name;
