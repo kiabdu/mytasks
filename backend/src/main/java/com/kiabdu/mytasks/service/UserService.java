@@ -6,22 +6,11 @@ import com.kiabdu.mytasks.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-
 @Service
 public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-
-    public User createUser(UserDTO userDTO) {
-        User user = new User();
-
-        user.setEmail(userDTO.getEmail());
-        user.setHash(hashPassword(userDTO.getPassword()));
-
-        return userRepository.save(user);
-    }
 
     private String generateSalt(){
         byte[] saltBytes = "mytasks".getBytes();
@@ -44,5 +33,26 @@ public class UserService {
         }
 
         return generateSalt() + saltedHash;
+    }
+
+    public User createUser(UserDTO userDTO) {
+        User user = new User();
+
+        user.setEmail(userDTO.getEmail());
+        user.setHash(hashPassword(userDTO.getPassword()));
+
+        return userRepository.save(user);
+    }
+
+    public User authenticateUser(UserDTO userDTO) {
+        String email = userDTO.getEmail();
+
+        if(userRepository.existsByEmailContaining(email)){
+            User user = userRepository.getUserByEmail(email);
+
+            if(hashPassword(userDTO.getPassword()).equals(user.getHash())){
+                System.out.println("login successfull");
+            }
+        }
     }
 }
