@@ -49,10 +49,12 @@ public class UserService {
 
         if(userRepository.existsByEmailContaining(email)){
             User user = userRepository.getUserByEmail(email);
-
             if(hashPassword(userDTO.getPassword()).equals(user.getHash())){
                 System.out.println("login successfull");
+                return user;
             }
         }
+
+        return null;
     }
 }
