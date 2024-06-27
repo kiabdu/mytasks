@@ -1,5 +1,6 @@
 package com.kiabdu.mytasks.controller;
 
+import com.kiabdu.mytasks.dto.TaskDTO;
 import com.kiabdu.mytasks.dto.UserDTO;
 import com.kiabdu.mytasks.model.User;
 import com.kiabdu.mytasks.service.UserService;
@@ -44,13 +45,27 @@ public class UserController {
     }
 
     @GetMapping("/checkSession")
-    public ResponseEntity<?> checkSession(HttpSession session){
+    public ResponseEntity<User> checkSession(HttpSession session){
          Long userId = (Long)session.getAttribute("userId");
+         User user = userService.getUser(userId);
 
          if(userId != null){
-             return ResponseEntity.ok().build();
+             return ResponseEntity.ok(user);
          } else {
              return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
          }
+    }
+
+    @PostMapping("/addTask")
+    public ResponseEntity<?> addTask(@RequestBody TaskDTO taskDTO, HttpSession session){
+        Long userId = (Long)session.getAttribute("userId");
+        User user = userService.getUser(userId);
+
+        if(userId != null){
+            userService.addTask(user, taskDTO);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 }

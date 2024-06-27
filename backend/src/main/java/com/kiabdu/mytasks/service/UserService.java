@@ -1,6 +1,8 @@
 package com.kiabdu.mytasks.service;
 
+import com.kiabdu.mytasks.dto.TaskDTO;
 import com.kiabdu.mytasks.dto.UserDTO;
+import com.kiabdu.mytasks.model.Task;
 import com.kiabdu.mytasks.model.User;
 import com.kiabdu.mytasks.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,5 +58,18 @@ public class UserService {
         }
 
         return null;
+    }
+
+    public User getUser(Long userId) {
+        return userRepository.getUserById(userId);
+    }
+
+    public void addTask(User user, TaskDTO taskDTO){
+        Task task = new Task();
+        task.setTask_name(taskDTO.getName());
+        task.setTask_description(taskDTO.getDescription());
+        task.setTask_dueDate(task.getTask_dueDate());
+
+        user.getTasks().add(task);
     }
 }
