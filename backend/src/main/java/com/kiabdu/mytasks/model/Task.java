@@ -37,7 +37,6 @@ public class Task {
     }
 
     public void setDueDate(LocalDate task_dueDate) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        this.dueDate = LocalDate.parse(task_dueDate.toString(), formatter);
+        this.dueDate = task_dueDate;
     }
 }

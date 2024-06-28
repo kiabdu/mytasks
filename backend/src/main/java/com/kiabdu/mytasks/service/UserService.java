@@ -89,7 +89,7 @@ public class UserService {
         Task task = new Task();
         task.setName(taskDTO.getName());
         task.setDescription(taskDTO.getDescription());
-        task.setDueDate(task.getDueDate());
+        task.setDueDate(taskDTO.getDueDate());
 
         User user = userRepository.findUserById(userId);
         user.getTasks().add(task);
