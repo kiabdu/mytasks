@@ -2,12 +2,16 @@ package com.kiabdu.mytasks.controller;
 
 import com.kiabdu.mytasks.dto.TaskDTO;
 import com.kiabdu.mytasks.dto.UserDTO;
+import com.kiabdu.mytasks.model.Task;
 import com.kiabdu.mytasks.model.User;
 import com.kiabdu.mytasks.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RequestMapping("/users")
@@ -55,10 +59,22 @@ public class UserController {
     public ResponseEntity<?> addTask(@RequestBody TaskDTO taskDTO, int userId){
         if(userService.authenticateSession(userId)){
             userService.addTask(userId, taskDTO);
-            userService.showAllTasks(userId);
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+    }
+
+    @GetMapping("getAllTasks")
+    public List<Task> getAllTasks(int userId){
+        List<Task> tasks = new ArrayList<>();
+
+        try {
+            tasks = userService.getAllTasks(userId);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return tasks;
     }
 }

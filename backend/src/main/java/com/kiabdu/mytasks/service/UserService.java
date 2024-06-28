@@ -9,8 +9,7 @@ import com.kiabdu.mytasks.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -74,7 +73,7 @@ public class UserService {
 
         if(hashPassword(password).equals(user.getHash())){
             System.out.println("login successfull");
-            session.setAttribute(user.getId(), true);
+            session.setActivityStatus(user.getId(), true);
             return user;
         }
 
@@ -96,14 +95,10 @@ public class UserService {
     }
 
     public boolean authenticateSession(int userId){
-        return session.getAttribute(userId);
+        return session.getActivityStatus(userId);
     }
 
-    public void showAllTasks(int userId) {
-        for(Task t: getUser(userId).getTasks()){
-            System.out.println("name: " + t.getName()
-                               + "\ndescription: " + t.getDescription()
-                               + "\ndue date: " + t.getDueDate());
-        }
+    public List<Task> getAllTasks(int userId) {
+        return getUser(userId).getTasks();
     }
 }
