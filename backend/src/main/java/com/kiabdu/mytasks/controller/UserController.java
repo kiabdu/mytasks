@@ -35,12 +35,6 @@ public class UserController {
         }
     }
 
-    //nur für kontrollzwecke weil h2-console probleme macht, vor dem pushen löschen
-    @GetMapping("/getAll")
-    public List<User> getAllUsers(){
-        return userRepository.findAll();
-    }
-
     @PostMapping("/login")
     public ResponseEntity<User> logIn(@RequestBody UserDTO userDTO){
         User user;
