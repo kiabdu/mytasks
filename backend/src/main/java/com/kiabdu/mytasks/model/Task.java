@@ -6,8 +6,14 @@ import java.time.LocalDate;
 
 @Embeddable
 public class Task {
+
+    @Column(name = "name")
     private String task_name;
+
+    @Column(name = "description")
     private String task_description;
+
+    @Column(name = "dueDate")
     private LocalDate task_dueDate;
 
     public String getTask_name() {

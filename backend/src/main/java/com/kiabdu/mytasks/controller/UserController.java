@@ -3,13 +3,15 @@ package com.kiabdu.mytasks.controller;
 import com.kiabdu.mytasks.dto.TaskDTO;
 import com.kiabdu.mytasks.dto.UserDTO;
 import com.kiabdu.mytasks.model.User;
+import com.kiabdu.mytasks.repository.UserRepository;
 import com.kiabdu.mytasks.service.UserService;
 import com.kiabdu.mytasks.config.HttpSession;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RequestMapping("/users")
@@ -18,6 +20,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserRepository userRepository;
 
     @PostMapping("/create")
     public ResponseEntity<User> signUp(@RequestBody UserDTO userDTO){
@@ -31,13 +35,18 @@ public class UserController {
         }
     }
 
+    //nur für kontrollzwecke weil h2-console probleme macht, vor dem pushen löschen
+    @GetMapping("/getAll")
+    public List<User> getAllUsers(){
+        return userRepository.findAll();
+    }
+
     @PostMapping("/login")
-    public ResponseEntity<User> logIn(@RequestBody UserDTO userDTO, HttpSession session){
+    public ResponseEntity<User> logIn(@RequestBody UserDTO userDTO){
         User user;
 
         try {
             user = userService.authenticateUser(userDTO);
-            session.setAttribute("userId", user.getId());
             return ResponseEntity.ok(user);
         } catch (Exception e) {
             return ResponseEntity.status(401).build();
@@ -45,24 +54,19 @@ public class UserController {
     }
 
     @GetMapping("/checkSession")
-    public ResponseEntity<User> checkSession(HttpSession session){
-         Long userId = (Long)session.getAttribute("userId");
-         User user = userService.getUser(userId);
-
-         if(userId != null){
-             return ResponseEntity.ok(user);
-         } else {
-             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-         }
+    public ResponseEntity<User> checkSession(int userId){
+        if(userService.authenticateSession(userId)){
+            return ResponseEntity.ok(userService.getUser(userId));
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 
-    @PostMapping("/addTask")
-    public ResponseEntity<?> addTask(@RequestBody TaskDTO taskDTO, HttpSession session){
-        Long userId = (Long)session.getAttribute("userId");
-        User user = userService.getUser(userId);
 
-        if(userId != null){
-            userService.addTask(user, taskDTO);
+    @PostMapping("/addTask")
+    public ResponseEntity<?> addTask(@RequestBody TaskDTO taskDTO, int userId){
+        if(userService.authenticateSession(userId)){
+            userService.addTask(userId, taskDTO);
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

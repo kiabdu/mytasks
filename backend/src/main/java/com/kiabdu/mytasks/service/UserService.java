@@ -1,5 +1,6 @@
 package com.kiabdu.mytasks.service;
 
+import com.kiabdu.mytasks.config.HttpSession;
 import com.kiabdu.mytasks.dto.TaskDTO;
 import com.kiabdu.mytasks.dto.UserDTO;
 import com.kiabdu.mytasks.model.Task;
@@ -13,6 +14,11 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    private HttpSession session;
+
+    public UserService(){
+        session = new HttpSession();
+    }
 
     private String generateSalt(){
         byte[] saltBytes = "mytasks".getBytes();
@@ -38,38 +44,61 @@ public class UserService {
     }
 
     public User createUser(UserDTO userDTO) {
-        User user = new User();
-
-        user.setEmail(userDTO.getEmail());
-        user.setHash(hashPassword(userDTO.getPassword()));
-
-        return userRepository.save(user);
-    }
-
-    public User authenticateUser(UserDTO userDTO) {
         String email = userDTO.getEmail();
+        String password = userDTO.getPassword();
 
-        if(userRepository.existsByEmailContaining(email)){
-            User user = userRepository.getUserByEmail(email);
-            if(hashPassword(userDTO.getPassword()).equals(user.getHash())){
-                System.out.println("login successfull");
-                return user;
-            }
+        if(userRepository.findUserByEmail(email) == null) {
+            User user = new User();
+
+            user.setEmail(email);
+            user.setHash(hashPassword(password));
+
+            return userRepository.save(user);
         }
 
         return null;
     }
 
-    public User getUser(Long userId) {
-        return userRepository.getUserById(userId);
+    public User authenticateUser(UserDTO userDTO) {
+        String email = userDTO.getEmail();
+        String password = userDTO.getPassword();
+        User user = userRepository.findUserByEmail(email);
+
+        if(user == null){
+            System.out.println("login failed");
+            return null;
+        }
+
+        if(hashPassword(password).equals(user.getHash())){
+            System.out.println("login successfull");
+            session.setAttribute(user.getId(), true);
+            return user;
+        }
+
+        return null;
     }
 
-    public void addTask(User user, TaskDTO taskDTO){
+    public User getUser(int userId) {
+        return userRepository.findUserById(userId);
+    }
+
+    public void addTask(int userId, TaskDTO taskDTO){
         Task task = new Task();
         task.setTask_name(taskDTO.getName());
         task.setTask_description(taskDTO.getDescription());
         task.setTask_dueDate(task.getTask_dueDate());
 
+        User user = userRepository.findUserById(userId);
         user.getTasks().add(task);
+    }
+
+    public boolean authenticateSession(int userId){
+        User user = userRepository.findUserById(userId);
+
+        if(user == null){
+            return false;
+        }
+
+        return session.getAttribute(userId);
     }
 }

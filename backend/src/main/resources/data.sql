@@ -3,7 +3,15 @@ SET SCHEMA users;
 
 
 CREATE TABLE IF NOT EXISTS users (
-    id LONG AUTO_INCREMENT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(100) NOT NULL,
     hash VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS tasks (
+    userId INT NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    description VARCHAR(500) NOT NULL,
+    dueDate DATE,
+    FOREIGN KEY (userId) REFERENCES users(id)
 );

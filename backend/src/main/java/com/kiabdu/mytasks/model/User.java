@@ -11,7 +11,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long id;
+    private int id;
 
     @Column(name = "email", length = 100)
     private String email;
@@ -24,10 +24,11 @@ public class User {
     @Column(name = "hash", length = 100)
     private String hash;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "tasks", joinColumns = @JoinColumn(name = "userId"))
     private List<Task> tasks = new ArrayList<>();
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
