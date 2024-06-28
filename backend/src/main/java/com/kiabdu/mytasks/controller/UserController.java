@@ -3,15 +3,11 @@ package com.kiabdu.mytasks.controller;
 import com.kiabdu.mytasks.dto.TaskDTO;
 import com.kiabdu.mytasks.dto.UserDTO;
 import com.kiabdu.mytasks.model.User;
-import com.kiabdu.mytasks.repository.UserRepository;
 import com.kiabdu.mytasks.service.UserService;
-import com.kiabdu.mytasks.config.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RequestMapping("/users")
@@ -20,8 +16,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-    @Autowired
-    private UserRepository userRepository;
 
     @PostMapping("/create")
     public ResponseEntity<User> signUp(@RequestBody UserDTO userDTO){
@@ -61,6 +55,7 @@ public class UserController {
     public ResponseEntity<?> addTask(@RequestBody TaskDTO taskDTO, int userId){
         if(userService.authenticateSession(userId)){
             userService.addTask(userId, taskDTO);
+            userService.showAllTasks(userId);
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

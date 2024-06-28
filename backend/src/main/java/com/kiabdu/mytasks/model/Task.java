@@ -3,40 +3,41 @@ package com.kiabdu.mytasks.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Embeddable
 public class Task {
-
     @Column(name = "name")
-    private String task_name;
+    private String name;
 
     @Column(name = "description")
-    private String task_description;
+    private String description;
 
     @Column(name = "dueDate")
-    private LocalDate task_dueDate;
+    private LocalDate dueDate;
 
-    public String getTask_name() {
-        return task_name;
+    public String getName() {
+        return name;
     }
 
-    public void setTask_name(String task_name) {
-        this.task_name = task_name;
+    public void setName(String task_name) {
+        this.name = task_name;
     }
 
-    public String getTask_description() {
-        return task_description;
+    public String getDescription() {
+        return description;
     }
 
-    public void setTask_description(String task_description) {
-        this.task_description = task_description;
+    public void setDescription(String task_description) {
+        this.description = task_description;
     }
 
-    public LocalDate getTask_dueDate() {
-        return task_dueDate;
+    public LocalDate getDueDate() {
+        return dueDate;
     }
 
-    public void setTask_dueDate(LocalDate task_dueDate) {
-        this.task_dueDate = task_dueDate;
+    public void setDueDate(LocalDate task_dueDate) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        this.dueDate = LocalDate.parse(task_dueDate.toString(), formatter);
     }
 }

@@ -9,6 +9,9 @@ import com.kiabdu.mytasks.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 @Service
 public class UserService {
 
@@ -84,21 +87,23 @@ public class UserService {
 
     public void addTask(int userId, TaskDTO taskDTO){
         Task task = new Task();
-        task.setTask_name(taskDTO.getName());
-        task.setTask_description(taskDTO.getDescription());
-        task.setTask_dueDate(task.getTask_dueDate());
+        task.setName(taskDTO.getName());
+        task.setDescription(taskDTO.getDescription());
+        task.setDueDate(task.getDueDate());
 
         User user = userRepository.findUserById(userId);
         user.getTasks().add(task);
     }
 
     public boolean authenticateSession(int userId){
-        User user = userRepository.findUserById(userId);
-
-        if(user == null){
-            return false;
-        }
-
         return session.getAttribute(userId);
+    }
+
+    public void showAllTasks(int userId) {
+        for(Task t: getUser(userId).getTasks()){
+            System.out.println("name: " + t.getName()
+                               + "\ndescription: " + t.getDescription()
+                               + "\ndue date: " + t.getDueDate());
+        }
     }
 }
