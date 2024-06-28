@@ -4,7 +4,7 @@ import com.kiabdu.mytasks.dto.TaskDTO;
 import com.kiabdu.mytasks.dto.UserDTO;
 import com.kiabdu.mytasks.model.User;
 import com.kiabdu.mytasks.service.UserService;
-import jakarta.servlet.http.HttpSession;
+import com.kiabdu.mytasks.config.HttpSession;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
