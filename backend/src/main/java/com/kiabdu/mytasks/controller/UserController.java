@@ -65,7 +65,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("getAllTasks")
+    @GetMapping("/getAllTasks")
     public List<Task> getAllTasks(int userId){
         List<Task> tasks = new ArrayList<>();
 
@@ -76,5 +76,11 @@ public class UserController {
         }
 
         return tasks;
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logOut(int userId){
+        userService.logOut(userId);
+        return ResponseEntity.ok("logout successfull");
     }
 }

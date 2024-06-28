@@ -101,4 +101,8 @@ public class UserService {
     public List<Task> getAllTasks(int userId) {
         return getUser(userId).getTasks();
     }
+
+    public void logOut(int userId) {
+        session.removeAttribute(userId);
+    }
 }
