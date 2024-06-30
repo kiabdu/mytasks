@@ -53,11 +53,21 @@ public class UserController {
         }
     }
 
-
     @PostMapping("/addTask")
-    public ResponseEntity<?> addTask(@RequestBody TaskDTO taskDTO, int userId){
+    public ResponseEntity<?> addTask(@RequestBody TaskDTO taskDTO, @RequestParam int userId){
+        System.out.println("completed: " + taskDTO.isCompleted());
         if(userService.authenticateSession(userId)){
             userService.addTask(userId, taskDTO);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @PutMapping("/updateTask")
+    public ResponseEntity<?> updateTask(@RequestBody TaskDTO taskDTO, @RequestParam int userId){
+        if(userService.authenticateSession(userId)){
+            userService.updateTask(userId, taskDTO);
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -75,7 +85,7 @@ public class UserController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logOut(@RequestBody int userId){
+    public ResponseEntity<?> logOut(@RequestParam int userId){
         userService.logOut(userId);
         return ResponseEntity.ok("logout successfull");
     }

@@ -3,7 +3,6 @@ package com.kiabdu.mytasks.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 @Embeddable
 public class Task {
@@ -15,6 +14,9 @@ public class Task {
 
     @Column(name = "dueDate")
     private LocalDate dueDate;
+
+    @Column(name = "completed")
+    private boolean completed;
 
     public String getName() {
         return name;
@@ -38,5 +40,13 @@ public class Task {
 
     public void setDueDate(LocalDate task_dueDate) {
         this.dueDate = task_dueDate;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 }

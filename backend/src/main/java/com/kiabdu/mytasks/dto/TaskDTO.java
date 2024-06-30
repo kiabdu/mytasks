@@ -6,6 +6,7 @@ public class TaskDTO {
     private String name;
     private String description;
     private LocalDate dueDate;
+    private boolean completed;
 
     public String getName() {
         return name;
@@ -29,5 +30,13 @@ public class TaskDTO {
 
     public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 }

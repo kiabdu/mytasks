@@ -81,9 +81,13 @@ public class UserService {
 
     public void addTask(int userId, TaskDTO taskDTO){
         Task task = new Task();
+
+        System.out.println("isCompleted: " + taskDTO.isCompleted());
+
         task.setName(taskDTO.getName());
         task.setDescription(taskDTO.getDescription());
         task.setDueDate(taskDTO.getDueDate());
+        task.setCompleted(taskDTO.isCompleted());
 
         User user = userRepository.findUserById(userId);
         user.getTasks().add(task);
@@ -107,5 +111,22 @@ public class UserService {
 
     public void logOut(int userId) {
         session.removeAttribute(userId);
+    }
+
+    public void updateTask(int userId, TaskDTO taskDTO) {
+        User user = userRepository.findUserById(userId);
+        List<Task> tasks = user.getTasks();
+
+        for(Task task: tasks){
+            if(task.getName().equals(taskDTO.getName())){
+                task.setDescription(taskDTO.getDescription());
+                task.setDueDate(taskDTO.getDueDate());
+                task.setCompleted(taskDTO.isCompleted());
+                break;
+            }
+        }
+
+        user.setTasks(tasks);
+        userRepository.save(user);
     }
 }

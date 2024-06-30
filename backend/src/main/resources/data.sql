@@ -13,5 +13,6 @@ CREATE TABLE IF NOT EXISTS tasks (
     name VARCHAR(100) NOT NULL,
     description VARCHAR(500) NOT NULL,
     dueDate DATE,
+    completed BOOLEAN,
     FOREIGN KEY (userId) REFERENCES users(id)
 );
