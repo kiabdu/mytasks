@@ -32,10 +32,6 @@ public class User {
         return id;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
     public void setEmail(String user_email) {
         this.email = user_email;
     }
