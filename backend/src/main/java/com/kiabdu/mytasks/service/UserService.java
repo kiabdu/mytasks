@@ -9,6 +9,7 @@ import com.kiabdu.mytasks.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -92,6 +93,7 @@ public class UserService {
 
         User user = userRepository.findUserById(userId);
         user.getTasks().add(task);
+        userRepository.save(user);
     }
 
     public boolean authenticateSession(int userId){
@@ -99,7 +101,14 @@ public class UserService {
     }
 
     public List<Task> getAllTasks(int userId) {
-        return getUser(userId).getTasks();
+        User user = userRepository.findUserById(userId);
+        List<Task> tasks = new ArrayList<>();
+
+        if(user != null){
+            tasks = user.getTasks();
+        }
+
+        return tasks;
     }
 
     public void logOut(int userId) {

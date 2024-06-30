@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
@@ -59,6 +58,7 @@ public class UserController {
     public ResponseEntity<?> addTask(@RequestBody TaskDTO taskDTO, int userId){
         if(userService.authenticateSession(userId)){
             userService.addTask(userId, taskDTO);
+            System.out.println("task " + taskDTO.getName() + " added successfully");
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -66,20 +66,17 @@ public class UserController {
     }
 
     @GetMapping("/getAllTasks")
-    public List<Task> getAllTasks(int userId){
-        List<Task> tasks = new ArrayList<>();
-
-        try {
-            tasks = userService.getAllTasks(userId);
-        } catch (Exception e){
-            e.printStackTrace();
+    public ResponseEntity<List<Task>> getAllTasks(@RequestParam int userId){
+        if(userService.authenticateSession(userId)){
+            List<Task> tasks = userService.getAllTasks(userId);
+            return ResponseEntity.ok(tasks);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-
-        return tasks;
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logOut(int userId){
+    public ResponseEntity<?> logOut(@RequestBody int userId){
         userService.logOut(userId);
         return ResponseEntity.ok("logout successfull");
     }

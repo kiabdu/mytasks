@@ -24,7 +24,7 @@ public class User {
     @Column(name = "hash", length = 100)
     private String hash;
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "tasks", joinColumns = @JoinColumn(name = "userId"))
     private List<Task> tasks = new ArrayList<>();
 
