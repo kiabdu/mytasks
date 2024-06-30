@@ -26,12 +26,24 @@ public class Task {
         this.name = task_name;
     }
 
+    public String getDescription(){
+        return description;
+    }
+
     public void setDescription(String task_description) {
         this.description = task_description;
     }
 
+    public LocalDate getDueDate(){
+        return dueDate;
+    }
+
     public void setDueDate(LocalDate task_dueDate) {
         this.dueDate = task_dueDate;
+    }
+
+    public boolean getCompleted(){
+        return completed;
     }
 
     public void setCompleted(boolean completed) {

@@ -55,7 +55,6 @@ public class UserController {
 
     @PostMapping("/addTask")
     public ResponseEntity<?> addTask(@RequestBody TaskDTO taskDTO, @RequestParam int userId){
-        System.out.println("completed: " + taskDTO.isCompleted());
         if(userService.authenticateSession(userId)){
             userService.addTask(userId, taskDTO);
             return ResponseEntity.ok().build();
