@@ -58,7 +58,6 @@ public class UserController {
     public ResponseEntity<?> addTask(@RequestBody TaskDTO taskDTO, int userId){
         if(userService.authenticateSession(userId)){
             userService.addTask(userId, taskDTO);
-            System.out.println("task " + taskDTO.getName() + " added successfully");
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

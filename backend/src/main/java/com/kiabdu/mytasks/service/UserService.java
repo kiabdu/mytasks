@@ -67,13 +67,7 @@ public class UserService {
         String password = userDTO.getPassword();
         User user = userRepository.findUserByEmail(email);
 
-        if(user == null){
-            System.out.println("login failed");
-            return null;
-        }
-
         if(hashPassword(password).equals(user.getHash())){
-            System.out.println("login successfull");
             session.setActivityStatus(user.getId(), true);
             return user;
         }
